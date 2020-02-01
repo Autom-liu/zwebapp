@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scnu.zwebapp.baseinfo.mapper.CategoryExtMapper">
+  <resultMap id="BaseResultMap" type="com.scnu.zwebapp.baseinfo.bean.Category">
+    <id column="cate_id" jdbcType="INTEGER" property="cateId" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="cate_name" jdbcType="VARCHAR" property="cateName" />
+    <result column="cate_level" jdbcType="INTEGER" property="cateLevel" />
+    <result column="cate_type" jdbcType="CHAR" property="cateType" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+  </resultMap>
+
+  <update id="updateByIdSelective" parameterType="Category">
+    update zw_category
+    <set>
+      <if test="parentId != null">
+        `parent_id` = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="cateName != null and cateName != ''">
+        `cate_name` = #{cateName,jdbcType=VARCHAR},
+      </if>
+      <if test="cateLevel != null">
+        `cate_level` = #{cateLevel,jdbcType=INTEGER},
+      </if>
+      <if test="cateType != null and cateType != ''">
+        `cate_type` = #{cateType,jdbcType=CHAR},
+      </if>
+      <if test="isDel != null">
+        `is_del` = #{isDel,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      WHERE cate_id = #{cateId} and is_del = 0
+    </if>
+  </update>
+
+  <update id="deleteById" parameterType="int">
+  	update zw_category set is_del = 1 where cate_id = #{cateId} and is_del = 0
+  </update>
+</mapper>

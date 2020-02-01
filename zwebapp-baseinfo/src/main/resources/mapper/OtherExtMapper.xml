@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scnu.zwebapp.baseinfo.mapper.OtherExtMapper">
+  <resultMap id="BaseResultMap" type="com.scnu.zwebapp.baseinfo.bean.Other">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <result column="otr_id" jdbcType="INTEGER" property="otrId" />
+    <result column="otr_name" jdbcType="VARCHAR" property="otrName" />
+    <result column="otr_use_time" jdbcType="INTEGER" property="otrUseTime" />
+    <result column="otr_type" jdbcType="CHAR" property="otrType" />
+  </resultMap>
+	
+	<update id="increaseUseTime">
+		update zw_other set otr_use_time = otr_use_time + 1 where otr_id = #{id}
+	</update>
+	
+</mapper>

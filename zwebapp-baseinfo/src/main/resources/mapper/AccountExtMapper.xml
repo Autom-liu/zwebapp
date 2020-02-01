@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scnu.zwebapp.baseinfo.mapper.AccountExtMapper">
+  <resultMap id="BaseResultMap" type="com.scnu.zwebapp.baseinfo.bean.Account">
+    <id column="acc_id" jdbcType="INTEGER" property="accId" />
+    <result column="acc_sys_type" jdbcType="CHAR" property="accSysType" />
+    <result column="acc_user_type" jdbcType="CHAR" property="accUserType" />
+    <result column="acc_name" jdbcType="VARCHAR" property="accName" />
+    <result column="acc_icon" jdbcType="VARCHAR" property="accIcon" />
+    <result column="acc_remark" jdbcType="VARCHAR" property="accRemark" />
+    <result column="acc_amount" jdbcType="DECIMAL" property="accAmount" />
+    <result column="acc_has_child" jdbcType="BIT" property="accHasChild" />
+    <result column="acc_can_pay" jdbcType="BIT" property="accCanPay" />
+    <result column="acc_can_transfer" jdbcType="BIT" property="accCanTransfer" />
+    <result column="acc_parent_id" jdbcType="INTEGER" property="accParentId" />
+    <result column="is_del" jdbcType="BIT" property="isDel" />
+  </resultMap>
+  <update id="deleteById">
+  	update zw_account set is_del = 1 where acc_id = #{id} and is_del = 0
+  </update>
+  
+  <update id="deleteByParentId">
+  	update zw_account set is_del = 1 where acc_parent_id = #{accParentId}
+  </update>
+  
+  <update id="updateByIdSelective">
+  	update zw_account
+    <set>
+      <if test="accSysType != null">
+        `acc_sys_type` = #{accSysType,jdbcType=CHAR},
+      </if>
+      <if test="accUserType != null">
+        `acc_user_type` = #{accUserType,jdbcType=CHAR},
+      </if>
+      <if test="accName != null">
+        `acc_name` = #{accName,jdbcType=VARCHAR},
+      </if>
+      <if test="accIcon != null">
+        `acc_icon` = #{accIcon,jdbcType=VARCHAR},
+      </if>
+      <if test="accRemark != null">
+        `acc_remark` = #{accRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="accAmount != null">
+        `acc_amount` = #{accAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="accHasChild != null">
+        `acc_has_child` = #{accHasChild,jdbcType=BIT},
+      </if>
+      <if test="accCanPay != null">
+        `acc_can_pay` = #{accCanPay,jdbcType=BIT},
+      </if>
+      <if test="accCanTransfer != null">
+        `acc_can_transfer` = #{accCanTransfer,jdbcType=BIT},
+      </if>
+      <if test="accParentId != null">
+        `acc_parent_id` = #{accParentId,jdbcType=INTEGER},
+      </if>
+      <if test="isDel != null">
+        `is_del` = #{isDel,jdbcType=BIT},
+      </if>
+    </set>
+    WHERE acc_id = #{accId} and is_del = 0
+  </update>
+  
+  <insert id="insert">
+  	<selectKey keyProperty="accId" resultType="Integer" order="AFTER">
+  		select LAST_INSERT_ID()
+  	</selectKey>
+  	INSERT INTO `zw_account` (
+  		`acc_sys_type`, `acc_user_type`, `acc_name`, `acc_icon`, `acc_remark`, `acc_amount`,
+		`acc_has_child`, `acc_can_pay`, `acc_can_transfer`, `acc_parent_id`, `is_del`
+		)
+	VALUES (
+		#{accSysType}, #{accUserType}, #{accName}, #{accIcon}, #{accRemark}, #{accAmount},
+		#{accHasChild}, #{accCanPay}, #{accCanTransfer}, #{accParentId}, #{isDel}
+		)
+  </insert>
+</mapper>
