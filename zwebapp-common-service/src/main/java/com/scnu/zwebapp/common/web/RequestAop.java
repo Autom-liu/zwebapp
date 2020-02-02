@@ -24,7 +24,7 @@ public class RequestAop {
 	
 	Logger logger = LoggerFactory.getLogger(RequestAop.class);
 
-	@Pointcut("execution(public * com.scnu.zwebapp.*.web.*.*(..))")
+	@Pointcut("execution(public * com.scnu.zwebapp.*.web.api.*.*(..))")
 	public void logApi() {
 		
 	}
