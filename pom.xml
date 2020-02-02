@@ -92,5 +92,7 @@
 	<modules>
 		<module>zwebapp-common</module>
 		<module>zwebapp-common-service</module>
+		<module>zwebapp-baseinfo</module>
+		<module>zwebapp-flow</module>
 	</modules>
 </project>

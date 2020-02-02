@@ -1,0 +1,9 @@
+server:
+  port: 9083
+  servlet:
+    context-path: /zwebapp-flow
+spring:
+  application:
+    name: zwebapp-flow
+  profiles:
+    active: dev
