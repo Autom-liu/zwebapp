@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import com.scnu.zwebapp.common.enums.DefaultSysErrorEnum;
 import com.scnu.zwebapp.common.exception.BizException;
 import com.scnu.zwebapp.common.util.JsonUtils;
 import com.scnu.zwebapp.common.vo.IResult;
@@ -66,7 +67,7 @@ public class GobalExceptionHandler {
 			log.error("请求url: {}", request.getRequestURL());
 			log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));			
 		}
-		return IResult.error(HttpStatus.NOT_FOUND.toString(), "接口不存在", e);
+		return IResult.error(DefaultSysErrorEnum.INTERFACE_NOT_FOUND, e);
 	}
 	
 	/**

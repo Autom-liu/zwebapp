@@ -27,7 +27,7 @@ public class AccountServiceImpl extends BaseService<Account, AccountDTO, Account
 		
 		AccountExample example = new ExampleProxy();
 		
-		super.handlePageOrder(query, null, example);
+		super.handlePageOrder(query, false, example);
 		
 		// TODO Here build the condition you want
 		

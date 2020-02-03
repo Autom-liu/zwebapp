@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.scnu.zwebapp.common.base.BaseBizEnum;
+import com.scnu.zwebapp.common.enums.BaseStatusEnum;
 
 /**
  * 通用枚举参数解析器  生成工厂
@@ -27,12 +28,12 @@ import com.scnu.zwebapp.common.base.BaseBizEnum;
  */
 @SuppressWarnings({"unchecked", "rawtypes"})
 @Component
-public class BaseEnumConverterDeserializerFactory extends JsonDeserializer<BaseBizEnum> implements ConverterFactory<String, BaseBizEnum> {
+public class BaseEnumConverterDeserializerFactory extends JsonDeserializer<BaseStatusEnum> implements ConverterFactory<String, BaseStatusEnum> {
 	
 	private static final Map<Class<?>, Converter> CONVERTERS = new ConcurrentHashMap<>();
 
 	@Override
-	public <T extends BaseBizEnum> Converter<String, T> getConverter(Class<T> targetType) {
+	public <T extends BaseStatusEnum> Converter<String, T> getConverter(Class<T> targetType) {
 		Converter<String, T> converter = CONVERTERS.get(targetType);
 		if(converter == null) {
 			converter = new CodeEnumConverter<>(targetType);
@@ -42,7 +43,7 @@ public class BaseEnumConverterDeserializerFactory extends JsonDeserializer<BaseB
 	}
 
 	@Override
-	public BaseBizEnum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+	public BaseStatusEnum deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
 		JsonNode jsonNode = (JsonNode) p.getCodec().readTree(p);
 		String currentName = p.getCurrentName();
 		Object currentValue = p.getCurrentValue();
@@ -50,10 +51,10 @@ public class BaseEnumConverterDeserializerFactory extends JsonDeserializer<BaseB
 		String text = jsonNode.asText();
 		Converter converter = this.getConverter(propertyType);
 		Object convertResult = converter.convert(text);
-		return convertResult instanceof BaseBizEnum ? (BaseBizEnum) convertResult : null;
+		return convertResult instanceof BaseStatusEnum ? (BaseStatusEnum) convertResult : null;
 	}
 
-	public static class CodeEnumConverter<T extends BaseBizEnum> implements Converter<String, T> {
+	public static class CodeEnumConverter<T extends BaseStatusEnum> implements Converter<String, T> {
 		
 		private Map<String, T> enumMap = new HashMap<>();
 

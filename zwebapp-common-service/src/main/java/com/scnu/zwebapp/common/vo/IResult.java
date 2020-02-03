@@ -37,4 +37,12 @@ public interface IResult {
 		result.setMsg(errorEnum.getMsg());
 		return result;
 	}
+	
+	public static IResult error(IErrorEnum errorEnum, Throwable t) {
+		IResult result = new Result<>();
+		result.setCode(errorEnum.getCode());
+		result.setMsg(errorEnum.getMsg());
+		result.setT(t);
+		return result;
+	}
 }

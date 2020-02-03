@@ -25,10 +25,7 @@ import com.scnu.zwebapp.common.service.BaseService;
 import com.scnu.zwebapp.common.util.DataUtils;
 import com.scnu.zwebapp.common.vo.PageVO;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Service
-@Slf4j
 public class AccountServiceImpl extends BaseService<Account, AccountDTO, AccountVO> implements AccountService {
 
 	@Autowired
@@ -42,7 +39,7 @@ public class AccountServiceImpl extends BaseService<Account, AccountDTO, Account
 		
 		AccountExample example = new ExampleProxy();
 		
-		super.handlePageOrder(query, null, example);
+		super.handlePageOrder(query, false, example);
 		
 		example.createCriteria()
 			.andAccSysTypeEqualTo(query.getAccSysType())

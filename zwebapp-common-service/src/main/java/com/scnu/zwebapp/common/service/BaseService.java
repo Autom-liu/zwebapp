@@ -9,8 +9,6 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.scnu.zwebapp.common.base.BaseOrderByEnum;
 import com.scnu.zwebapp.common.bean.BaseExample;
-import com.scnu.zwebapp.common.enums.DefaultSysErrorEnum;
-import com.scnu.zwebapp.common.exception.BizException;
 import com.scnu.zwebapp.common.query.PageQuery;
 import com.scnu.zwebapp.common.util.DataUtils;
 import com.scnu.zwebapp.common.vo.PageVO;
@@ -84,22 +82,17 @@ public abstract class BaseService<T, DTO, VO> implements IService<T, DTO, VO> {
 	/**
 	 * 通用处理分页排序逻辑
 	 * 可以通过：xxxExample.setOrderByClause(super.handlePageOrder(...)) 方便调用
+	 * @see {@link handlePageOrder}
 	 * @param query	PageQuery的条件查询对象
 	 * @param clazz 排序枚举
 	 * @return 在分页或不排序的情况下返回null，在不分页排序情况下返回需要排序的子句。
 	 */
-	protected final String handlePageOrder(PageQuery query, Class<? extends BaseOrderByEnum> clazz) {
-		Boolean hasOrder = (clazz != null && query.getOrderBy() != null);
+	protected final String handlePageOrder(PageQuery query, boolean needOrder) {
+		Boolean hasOrder = (needOrder && query.getOrderBy() != null);
 		Boolean pageFlag = query.getPageFlag();
-		query.setOrderByField(null);
 		String orderField = null;
 		if(hasOrder) {
-			
-			BaseOrderByEnum orderByEnum = DataUtils.getEnumByCode(query.getOrderBy(), clazz);
-			
-			if (orderByEnum == null) {
-				throw new BizException(DefaultSysErrorEnum.BAD_ORDER_FIELD);
-			}
+			BaseOrderByEnum orderByEnum = query.getOrderBy();
 			orderField = orderByEnum.getOrderField();
 		}
 		
@@ -111,7 +104,6 @@ public abstract class BaseService<T, DTO, VO> implements IService<T, DTO, VO> {
 			PageHelper.startPage(query.getCurrentPage(), query.getPageSize());
 		} else if (!pageFlag && hasOrder) {
 			// 不分页要排序
-			query.setOrderByField(orderField);
 		} else {
 			// 不分页也不排序
 		}
@@ -124,8 +116,8 @@ public abstract class BaseService<T, DTO, VO> implements IService<T, DTO, VO> {
 	 * @param clazz 排序枚举
 	 * @param example 查询条件对象
 	 */
-	protected final void handlePageOrder(PageQuery query, Class<? extends BaseOrderByEnum> clazz, BaseExample example) {
-		example.setOrderByClause(handlePageOrder(query, clazz));
+	protected final void handlePageOrder(PageQuery query, boolean needOrder, BaseExample example) {
+		example.setOrderByClause(handlePageOrder(query, needOrder));
 	}
 	
 	/**

@@ -5,22 +5,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.scnu.zwebapp.common.enums.ErrorEnum;
-import com.scnu.zwebapp.common.exception.BizException;
-import com.scnu.zwebapp.common.proxy.CriteriaProxy;
-import com.scnu.zwebapp.common.service.BaseService;
-import com.scnu.zwebapp.common.util.DataUtils;
-import com.scnu.zwebapp.common.vo.PageVO;
 import com.scnu.zwebapp.baseinfo.bean.Other;
 import com.scnu.zwebapp.baseinfo.bean.OtherExample;
 import com.scnu.zwebapp.baseinfo.dto.OtherDTO;
-import com.scnu.zwebapp.baseinfo.enums.OtherOrderEnum;
 import com.scnu.zwebapp.baseinfo.enums.OtrTypeEnum;
 import com.scnu.zwebapp.baseinfo.mapper.OtherExtMapper;
 import com.scnu.zwebapp.baseinfo.mapper.OtherMapper;
 import com.scnu.zwebapp.baseinfo.query.OtherQuery;
 import com.scnu.zwebapp.baseinfo.service.OtherService;
 import com.scnu.zwebapp.baseinfo.vo.OtherVO;
+import com.scnu.zwebapp.common.enums.ErrorEnum;
+import com.scnu.zwebapp.common.exception.BizException;
+import com.scnu.zwebapp.common.proxy.CriteriaProxy;
+import com.scnu.zwebapp.common.service.BaseService;
+import com.scnu.zwebapp.common.util.DataUtils;
+import com.scnu.zwebapp.common.vo.PageVO;
 
 @Service
 public class OtherServiceImpl extends BaseService<Other, OtherDTO, OtherVO> implements OtherService {
@@ -56,7 +55,7 @@ public class OtherServiceImpl extends BaseService<Other, OtherDTO, OtherVO> impl
 		
 		OtherExample example = new ExampleProxy();
 		
-		super.handlePageOrder(query, OtherOrderEnum.class, example);
+		super.handlePageOrder(query, true, example);
 		
 		example.createCriteria().andOtrTypeEqualTo(query.getOtrType());
 		

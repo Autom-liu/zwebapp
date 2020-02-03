@@ -34,7 +34,7 @@ public class CategoryServiceImpl extends BaseService<Category, CategoryDTO, Cate
 		
 		CategoryExample example = new ExampleProxy();
 		
-		super.handlePageOrder(query, null, example);
+		super.handlePageOrder(query, false, example);
 		
 		// TODO Here build the condition you want
 		example.createCriteria()

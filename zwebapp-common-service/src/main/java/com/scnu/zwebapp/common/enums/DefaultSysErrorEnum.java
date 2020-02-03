@@ -8,8 +8,16 @@ package com.scnu.zwebapp.common.enums;
  *
  */
 public enum DefaultSysErrorEnum implements IErrorEnum {
-	/** 无效的排序字段  **/
-	BAD_ORDER_FIELD("4000", "无效的排序字段"),
+	
+	/** 请求参数格式暂不支持 **/
+	PARAM_FORMAT_ERROR("0403", "请求参数格式暂不支持"),
+
+	/** 接口不存在 **/
+	INTERFACE_NOT_FOUND("0404", "接口不存在"),
+
+	/** 请求方式暂不支持**/
+	HTTP_METHOD_ERROR("0405", "请求方式暂不支持"),
+	
 	;
 	
 	private String code;

@@ -2,18 +2,22 @@ package com.scnu.zwebapp.common.query;
 
 import java.io.Serializable;
 
+import com.scnu.zwebapp.common.base.BaseOrderByEnum;
+
 import lombok.Data;
 
 /**
  * 分页查询基础类
  * @author Autom
+ * @date 2020年2月4日
+ * @version 1.0
  *
  */
 @Data
 public class PageQuery implements Serializable {
-	
-	private static final long serialVersionUID = -3654116933868832414L;
-	
+
+	private static final long serialVersionUID = 1L;
+
 	public static final Integer DEFAULT_CURRENTPAGE = 1;
 	
 	public static final Integer DEFAULT_PAGESIZE = 10;
@@ -34,12 +38,8 @@ public class PageQuery implements Serializable {
 	private Boolean pageFlag = true;
 	
 	/**
-	 * 排序编号
+	 * 排序枚举
 	 */
-	private String orderBy;
-	
-	/**
-	 * 排序字段
-	 */
-	private String orderByField;
+	private BaseOrderByEnum orderBy;
+
 }

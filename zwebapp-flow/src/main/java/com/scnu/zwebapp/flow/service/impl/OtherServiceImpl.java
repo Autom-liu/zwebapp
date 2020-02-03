@@ -27,7 +27,7 @@ public class OtherServiceImpl extends BaseService<Other, OtherDTO, OtherVO> impl
 		
 		OtherExample example = new ExampleProxy();
 		
-		super.handlePageOrder(query, null, example);
+		super.handlePageOrder(query, false, example);
 		
 		// TODO Here build the condition you want
 		

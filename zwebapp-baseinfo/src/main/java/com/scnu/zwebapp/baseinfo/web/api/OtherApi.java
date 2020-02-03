@@ -17,7 +17,6 @@ import com.scnu.zwebapp.baseinfo.query.OtherQuery;
 import com.scnu.zwebapp.baseinfo.service.OtherService;
 import com.scnu.zwebapp.baseinfo.vo.OtherVO;
 import com.scnu.zwebapp.common.enums.ErrorEnum;
-import com.scnu.zwebapp.common.exception.BizException;
 import com.scnu.zwebapp.common.vo.IResult;
 import com.scnu.zwebapp.common.vo.Result;
 import com.scnu.zwebapp.common.vo.ResultList;
@@ -50,19 +49,19 @@ public class OtherApi {
 	}
 	
 	@GetMapping("/other/{id}")
-	public Result<OtherVO> findOne(@PathVariable("id") Integer id) {
+	public IResult findOne(@PathVariable("id") Integer id) {
 		OtherVO result = otrService.findOne(id);
 		return Result.success(result);
 	}
 	
 	@GetMapping("/other/list")
-	public ResultList<OtherVO> findList(OtherQuery query) {
+	public IResult findList(OtherQuery query) {
 		if(StringUtils.isEmpty(query.getOrderBy())) {
-			throw new BizException(ErrorEnum.ERRCODE_0017);
+			return IResult.error(ErrorEnum.ERRCODE_0017);
 		}
 		
 		if(StringUtils.isEmpty(query.getOtrType())) {
-			throw new BizException(ErrorEnum.ERRCODE_0018);
+			return IResult.error(ErrorEnum.ERRCODE_0018);
 		}
 		
 		List<OtherVO> result = otrService.queryList(query);
