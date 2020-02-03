@@ -10,7 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
@@ -24,8 +26,12 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttributeMethodProcessor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.scnu.zwebapp.common.enums.BaseStatusEnum;
 import com.scnu.zwebapp.common.enums.ExceptionEnums;
 import com.scnu.zwebapp.common.exception.BizException;
+import com.scnu.zwebapp.common.util.BaseEnumDeserialzer;
 
 /**
  * 一个HandlerMethodArgumentResolver的装饰器，使其同时支持json和表单形式的参数解析
@@ -51,21 +57,10 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		if(!seal) {
-			this.requestMappingHandlerAdapter = (RequestMappingHandlerAdapter) event.getApplicationContext().getBean("requestMappingHandlerAdapter");
-			if (Objects.isNull(this.requestMappingHandlerAdapter)) {
-				throw new BizException(ExceptionEnums.getInstance("9999", "自定义通用参数解析器加载失败"));
-			}
-			for(HandlerMethodArgumentResolver resolver : requestMappingHandlerAdapter.getArgumentResolvers()) {
-				if(resolver instanceof RequestResponseBodyMethodProcessor) {
-					this.requestResponseBodyMethodProcessor = (RequestResponseBodyMethodProcessor) resolver;
-				}
-				
-				if(resolver instanceof ServletModelAttributeMethodProcessor) {
-					this.servletModelAttributeMethodProcessor = (ServletModelAttributeMethodProcessor) resolver;
-				}
-			}
-			
-			localResolver.addAll(requestMappingHandlerAdapter.getArgumentResolvers());
+			ConfigurableApplicationContext applicationContext = event.getApplicationContext();
+			doRegistyResolver(applicationContext);
+			doRegistyDeserialzer(applicationContext);
+			this.seal = true;
 		}
 	}
 
@@ -89,13 +84,12 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 		Class<?> parameterType = parameter.getParameterType();
 		HttpServletRequest httpServletRequest = webRequest.getNativeRequest(HttpServletRequest.class);
 		String contentType = httpServletRequest.getContentType();
+		logger.debug("content Type is {}", contentType);
 		if(StringUtils.isBlank(contentType)) {
-			logger.debug("default contentType");
 			return servletModelAttributeMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 		}
 		
 		if(contentType.startsWith("application/x-www-form-urlencoded")) {
-			logger.debug("contentType is application/x-www-form-urlencoded");
 			return servletModelAttributeMethodProcessor.resolveArgument(parameter, mavContainer, webRequest, binderFactory);
 		}
 		
@@ -122,6 +116,32 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 		}
 		
 		throw new BizException(ExceptionEnums.getInstance("9999", "自定义参数解析异常，无法解析该参数：" + parameter.getParameter()));
+	}
+	
+	private void doRegistyResolver(ApplicationContext applicationContext) {
+		this.requestMappingHandlerAdapter = (RequestMappingHandlerAdapter) applicationContext.getBean("requestMappingHandlerAdapter");
+		if (Objects.isNull(this.requestMappingHandlerAdapter)) {
+			throw new BizException(ExceptionEnums.getInstance("9999", "自定义通用参数解析器加载失败"));
+		}
+		for(HandlerMethodArgumentResolver resolver : requestMappingHandlerAdapter.getArgumentResolvers()) {
+			if(resolver instanceof RequestResponseBodyMethodProcessor) {
+				this.requestResponseBodyMethodProcessor = (RequestResponseBodyMethodProcessor) resolver;
+			}
+			
+			if(resolver instanceof ServletModelAttributeMethodProcessor) {
+				this.servletModelAttributeMethodProcessor = (ServletModelAttributeMethodProcessor) resolver;
+			}
+		}
+		
+		localResolver.addAll(requestMappingHandlerAdapter.getArgumentResolvers());
+	}
+	
+	private void doRegistyDeserialzer(ApplicationContext applicationContext) {
+		SimpleModule simpleModule = new SimpleModule();
+		BaseEnumDeserialzer baseEnumDeserialzer = new BaseEnumDeserialzer();
+		simpleModule.addDeserializer(BaseStatusEnum.class, baseEnumDeserialzer);
+		ObjectMapper bean = applicationContext.getBean(ObjectMapper.class);
+		bean.registerModule(simpleModule);
 	}
 
 }
