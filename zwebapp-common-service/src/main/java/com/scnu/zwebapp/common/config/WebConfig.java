@@ -9,7 +9,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
-import com.scnu.zwebapp.common.factory.EnumConverterFactory;
+import com.scnu.zwebapp.common.factory.BaseEnumConverterDeserializerFactory;
 import com.scnu.zwebapp.common.web.CommonRequestBodyResolver;
 
 /**
@@ -25,6 +25,9 @@ public class WebConfig extends WebMvcConfigurationSupport {
 	@Autowired
 	private CommonRequestBodyResolver commonRequestBodyResolver;
 	
+	@Autowired
+	private BaseEnumConverterDeserializerFactory enumConverterFactory;
+	
 	@Override
 	protected void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(commonRequestBodyResolver);
@@ -33,7 +36,7 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
 	@Override
 	protected void addFormatters(FormatterRegistry registry) {
-		registry.addConverterFactory(new EnumConverterFactory());
+		registry.addConverterFactory(enumConverterFactory);
 	}
 	
 }

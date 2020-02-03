@@ -1,10 +1,10 @@
 package com.scnu.zwebapp.baseinfo.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.scnu.zwebapp.common.enums.BizEnum;
+import com.scnu.zwebapp.common.base.BaseBizEnum;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum OtrTypeEnum implements BizEnum {
+public enum OtrTypeEnum implements BaseBizEnum {
 	
 	/** 项目 **/
 	PROJECT("0001", "项目"),

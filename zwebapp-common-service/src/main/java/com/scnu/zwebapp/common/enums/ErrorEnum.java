@@ -1,9 +1,9 @@
 package com.scnu.zwebapp.common.enums;
 
-public enum ErrorEnum implements ExceptionEnums {
+public enum ErrorEnum implements IErrorEnum {
 
 	
-	ERRCODE_0000("0000", ""),
+	ERRCODE_0000("0000", "success"),
 	
 	/******  0000 ~ 0100 基础中心错误码   ********/
 	
@@ -90,6 +90,16 @@ public enum ErrorEnum implements ExceptionEnums {
 	@Override
 	public String getMsg() {
 		return this.msg;
+	}
+
+	@Override
+	public boolean isSuccess() {
+		return this == ERRCODE_0000;
+	}
+
+	@Override
+	public boolean isNotSuccess() {
+		return this != ERRCODE_0000;
 	}
 	
 }

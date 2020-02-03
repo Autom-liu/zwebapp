@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
@@ -29,9 +30,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ServletModelAttribu
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.scnu.zwebapp.common.enums.BaseStatusEnum;
-import com.scnu.zwebapp.common.enums.ExceptionEnums;
+import com.scnu.zwebapp.common.enums.IErrorEnum;
 import com.scnu.zwebapp.common.exception.BizException;
-import com.scnu.zwebapp.common.util.BaseEnumDeserialzer;
+import com.scnu.zwebapp.common.factory.BaseEnumConverterDeserializerFactory;
+import com.scnu.zwebapp.common.web.annotation.CommonRequestBody;
 
 /**
  * 一个HandlerMethodArgumentResolver的装饰器，使其同时支持json和表单形式的参数解析
@@ -54,6 +56,9 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 	
 	private ServletModelAttributeMethodProcessor servletModelAttributeMethodProcessor;
 	
+	@Autowired
+	private BaseEnumConverterDeserializerFactory baseEnumDeserialzer;
+	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
 		if(!seal) {
@@ -71,11 +76,7 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		if(!parameter.hasParameterAnnotation(PathVariable.class)) {
-			logger.debug("will use CommonRequestBodyResolver to resolver parameter for: {}", parameter.getExecutable());
-			return true;
-		}
-		return false;
+		return parameter.hasParameterAnnotation(CommonRequestBody.class);
 	}
 
 	@Override
@@ -115,13 +116,13 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 			}
 		}
 		
-		throw new BizException(ExceptionEnums.getInstance("9999", "自定义参数解析异常，无法解析该参数：" + parameter.getParameter()));
+		throw new BizException(IErrorEnum.getInstance("9999", "自定义参数解析异常，无法解析该参数：" + parameter.getParameter()));
 	}
 	
 	private void doRegistyResolver(ApplicationContext applicationContext) {
 		this.requestMappingHandlerAdapter = (RequestMappingHandlerAdapter) applicationContext.getBean("requestMappingHandlerAdapter");
 		if (Objects.isNull(this.requestMappingHandlerAdapter)) {
-			throw new BizException(ExceptionEnums.getInstance("9999", "自定义通用参数解析器加载失败"));
+			throw new BizException(IErrorEnum.getInstance("9999", "自定义通用参数解析器加载失败"));
 		}
 		for(HandlerMethodArgumentResolver resolver : requestMappingHandlerAdapter.getArgumentResolvers()) {
 			if(resolver instanceof RequestResponseBodyMethodProcessor) {
@@ -138,7 +139,6 @@ public class CommonRequestBodyResolver implements HandlerMethodArgumentResolver,
 	
 	private void doRegistyDeserialzer(ApplicationContext applicationContext) {
 		SimpleModule simpleModule = new SimpleModule();
-		BaseEnumDeserialzer baseEnumDeserialzer = new BaseEnumDeserialzer();
 		simpleModule.addDeserializer(BaseStatusEnum.class, baseEnumDeserialzer);
 		ObjectMapper bean = applicationContext.getBean(ObjectMapper.class);
 		bean.registerModule(simpleModule);

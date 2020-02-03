@@ -1,6 +1,6 @@
 package com.scnu.zwebapp.baseinfo.enums;
 
-import com.scnu.zwebapp.common.enums.BaseOrderByEnum;
+import com.scnu.zwebapp.common.base.BaseOrderByEnum;
 
 public enum OtherOrderEnum implements BaseOrderByEnum {
 	

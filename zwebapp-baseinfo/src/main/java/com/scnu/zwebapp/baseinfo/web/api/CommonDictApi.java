@@ -5,9 +5,9 @@ import java.util.Arrays;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scnu.zwebapp.baseinfo.enums.AccountSysTypeEnum;
 import com.scnu.zwebapp.baseinfo.enums.AccountUserTypeEnum;
 import com.scnu.zwebapp.baseinfo.enums.OtrTypeEnum;
+import com.scnu.zwebapp.common.enums.AccountSysTypeEnum;
 import com.scnu.zwebapp.common.enums.FlowRecordTypeEnum;
 import com.scnu.zwebapp.common.vo.ResultList;
 

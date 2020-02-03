@@ -1,10 +1,10 @@
-package com.scnu.zwebapp.baseinfo.enums;
+package com.scnu.zwebapp.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.scnu.zwebapp.common.enums.BizEnum;
+import com.scnu.zwebapp.common.base.BaseBizEnum;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum AccountSysTypeEnum implements BizEnum {
+public enum AccountSysTypeEnum implements BaseBizEnum {
 	
 	/** 自由账户 **/
 	FREE_ACCOUNT("0001", "自由账户"),

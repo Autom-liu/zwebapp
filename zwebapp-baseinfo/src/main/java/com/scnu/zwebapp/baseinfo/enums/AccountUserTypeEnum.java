@@ -1,10 +1,10 @@
 package com.scnu.zwebapp.baseinfo.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.scnu.zwebapp.common.enums.BizEnum;
+import com.scnu.zwebapp.common.base.BaseBizEnum;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum AccountUserTypeEnum implements BizEnum {
+public enum AccountUserTypeEnum implements BaseBizEnum {
 
 	/** 现金账户 **/
 	CASH_ACCOUNT("0001", "现金账户"),

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.scnu.zwebapp.common.enums.AccountSysTypeEnum;
 import com.scnu.zwebapp.common.enums.ErrorEnum;
 import com.scnu.zwebapp.common.exception.BizException;
 import com.scnu.zwebapp.common.proxy.CriteriaProxy;
@@ -19,7 +20,6 @@ import com.scnu.zwebapp.flow.bean.AccountFlow;
 import com.scnu.zwebapp.flow.bean.AccountFlowExample;
 import com.scnu.zwebapp.flow.dto.AccountDTO;
 import com.scnu.zwebapp.flow.dto.AccountFlowDTO;
-import com.scnu.zwebapp.flow.enums.AccountSysTypeEnum;
 import com.scnu.zwebapp.flow.mapper.AccountFlowMapper;
 import com.scnu.zwebapp.flow.query.AccountFlowQuery;
 import com.scnu.zwebapp.flow.service.AccountFlowService;

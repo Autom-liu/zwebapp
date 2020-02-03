@@ -15,7 +15,6 @@ import com.scnu.zwebapp.baseinfo.service.CategoryService;
 import com.scnu.zwebapp.baseinfo.vo.CategoryVO;
 import com.scnu.zwebapp.common.enums.ErrorEnum;
 import com.scnu.zwebapp.common.enums.FlowRecordTypeEnum;
-import com.scnu.zwebapp.common.exception.BizException;
 import com.scnu.zwebapp.common.vo.IResult;
 import com.scnu.zwebapp.common.vo.Result;
 import com.scnu.zwebapp.common.vo.ResultList;
@@ -65,14 +64,14 @@ public class CategoryApi {
 	}
 	
 	@GetMapping("cate/list")
-	public ResultList<CategoryVO> findList(String cateType) {
+	public IResult findList(CategoryQuery query) {
+		FlowRecordTypeEnum cateType = query.getCateType();
+		
 		if(FlowRecordTypeEnum.INCOME.equals(cateType) || FlowRecordTypeEnum.OUTCOME.equals(cateType)) {
-			CategoryQuery query = new CategoryQuery();
-			query.setCategoryType(cateType);
 			List<CategoryVO> list = categoryService.queryList(query);
-			return ResultList.success(list);			
+			return ResultList.success(list);
 		} else {
-			throw new BizException(ErrorEnum.ERRCODE_0001);
+			return IResult.error(ErrorEnum.ERRCODE_0001);
 		}
 	}
 	

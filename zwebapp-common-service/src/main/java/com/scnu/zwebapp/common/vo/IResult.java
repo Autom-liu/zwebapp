@@ -1,6 +1,6 @@
 package com.scnu.zwebapp.common.vo;
 
-import com.scnu.zwebapp.common.enums.ExceptionEnums;
+import com.scnu.zwebapp.common.enums.IErrorEnum;
 
 public interface IResult {
 	
@@ -31,7 +31,7 @@ public interface IResult {
 		return result;
 	}
 	
-	public static IResult error(ExceptionEnums errorEnum) {
+	public static IResult error(IErrorEnum errorEnum) {
 		IResult result = new Result<>();
 		result.setCode(errorEnum.getCode());
 		result.setMsg(errorEnum.getMsg());

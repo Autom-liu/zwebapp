@@ -38,7 +38,7 @@ public class CategoryServiceImpl extends BaseService<Category, CategoryDTO, Cate
 		
 		// TODO Here build the condition you want
 		example.createCriteria()
-			.andCateTypeEqualTo(query.getCategoryType())
+			.andCateTypeEqualTo(query.getCateType().getCode())
 			.andIsDelEqualTo(false);
 		
 		

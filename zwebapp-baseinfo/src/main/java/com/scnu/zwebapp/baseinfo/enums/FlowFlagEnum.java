@@ -1,10 +1,10 @@
 package com.scnu.zwebapp.baseinfo.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.scnu.zwebapp.common.enums.BizEnum;
+import com.scnu.zwebapp.common.base.BaseBizEnum;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlowFlagEnum implements BizEnum {
+public enum FlowFlagEnum implements BaseBizEnum {
 	
 	/** 自身流转 **/
 	SELF("0000", "自身流转"),

@@ -8,20 +8,26 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import com.scnu.zwebapp.common.enums.NotFoundEnum;
 import com.scnu.zwebapp.common.exception.BizException;
-import com.scnu.zwebapp.common.exception.NotFoundException;
 import com.scnu.zwebapp.common.util.JsonUtils;
 import com.scnu.zwebapp.common.vo.IResult;
 
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * 全局异常处理器
+ * @author Autom
+ * @date 2020年2月4日
+ * @version 1.0
+ *
+ */
 @ControllerAdvice
 @Slf4j
 public class GobalExceptionHandler {
@@ -37,12 +43,11 @@ public class GobalExceptionHandler {
 	@ResponseBody
 	public IResult bindException(BindException e, HttpServletRequest request) {
 		BindingResult bindingResult = e.getBindingResult();
-		List<String> errorList = bindingResult.getFieldErrors().stream().map((fieldError) -> {
-			return fieldError.getDefaultMessage();
-		}).collect(Collectors.toList());
-		
-		log.error(request.getRequestURL() + e.getMessage());
-		log.error("请求参数={}", JsonUtils.serialize(request.getParameterMap()));
+		List<String> errorList = bindingResult.getFieldErrors().stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
+		if(log.isWarnEnabled()) {
+			log.warn(request.getRequestURL() + e.getMessage());
+			log.warn("请求参数={}", JsonUtils.serialize(request.getParameterMap()));
+		}
 		return IResult.error(HttpStatus.BAD_REQUEST.toString(), errorList.get(0), e);
 	}
 	
@@ -56,26 +61,12 @@ public class GobalExceptionHandler {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ResponseBody
 	public IResult InterfaceNotFound(NoHandlerFoundException e, HttpServletRequest request) {
-		log.error("请求不存在异常: {}", e.getMessage());
-		log.error("请求url: {}", request.getRequestURL());
-		log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));
-		return IResult.error(HttpStatus.NOT_FOUND.toString(), NotFoundEnum.INTERFACE_NOT_FOUND, e);
-	}
-	
-	/**
-	 * 业务异常之没有数据
-	 * @param e
-	 * @param request
-	 * @return
-	 */
-	@ExceptionHandler(NotFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ResponseBody
-	public IResult notFoundException(NotFoundException e, HttpServletRequest request) {
-		log.error("业务异常: {}", e.getMessage());
-		log.error("请求url: {}", request.getRequestURL());
-		log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));
-		return IResult.error(e.getCode(), e.getMsg(), e);
+		if(log.isErrorEnabled()) {
+			log.error("请求不存在异常: {}", e.getMessage());
+			log.error("请求url: {}", request.getRequestURL());
+			log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));			
+		}
+		return IResult.error(HttpStatus.NOT_FOUND.toString(), "接口不存在", e);
 	}
 	
 	/**
@@ -85,12 +76,14 @@ public class GobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(BizException.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.BAD_GATEWAY)
 	@ResponseBody
 	public IResult bizException(BizException e, HttpServletRequest request) {
-		log.error("业务异常: {}", e.getMessage());
-		log.error("请求url: {}", request.getRequestURL());
-		log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));
+		if(log.isWarnEnabled()) {
+			log.error("业务异常: {}", e.getMessage());
+			log.error("请求url: {}", request.getRequestURL());
+			log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));
+		}
 		return IResult.error(e.getCode(), e.getMsg());
 	}
 	
@@ -104,10 +97,12 @@ public class GobalExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ResponseBody
 	public IResult bizException(Exception e, HttpServletRequest request) {
-		log.error("内部异常: {}", e.getMessage());
-		log.error("请求url: {}", request.getRequestURL());
-		log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));
-		log.error("异常具体信息: ", e);
+		if(log.isErrorEnabled()) {
+			log.error("内部异常: {}", e.getMessage());
+			log.error("请求url: {}", request.getRequestURL());
+			log.error("请求参数: {}", JsonUtils.serialize(request.getParameterMap()));
+			log.error("异常具体信息: ", e);
+		}
 		return IResult.error(HttpStatus.INTERNAL_SERVER_ERROR.toString(), "系统内部异常");
 	}
 	

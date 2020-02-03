@@ -1,10 +1,10 @@
 package com.scnu.zwebapp.common.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.scnu.zwebapp.common.enums.BizEnum;
+import com.scnu.zwebapp.common.base.BaseBizEnum;
 
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum FlowRecordTypeEnum implements BizEnum {
+public enum FlowRecordTypeEnum implements BaseBizEnum {
 	
 	/** 收入 **/
 	INCOME("0001", "收入"),

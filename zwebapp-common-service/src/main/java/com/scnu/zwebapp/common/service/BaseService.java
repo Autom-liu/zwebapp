@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.scnu.zwebapp.common.base.BaseOrderByEnum;
 import com.scnu.zwebapp.common.bean.BaseExample;
-import com.scnu.zwebapp.common.enums.BaseOrderByEnum;
-import com.scnu.zwebapp.common.enums.CommonBizEnum;
+import com.scnu.zwebapp.common.enums.DefaultSysErrorEnum;
 import com.scnu.zwebapp.common.exception.BizException;
 import com.scnu.zwebapp.common.query.PageQuery;
 import com.scnu.zwebapp.common.util.DataUtils;
@@ -98,7 +98,7 @@ public abstract class BaseService<T, DTO, VO> implements IService<T, DTO, VO> {
 			BaseOrderByEnum orderByEnum = DataUtils.getEnumByCode(query.getOrderBy(), clazz);
 			
 			if (orderByEnum == null) {
-				throw new BizException(CommonBizEnum.BAD_ORDER_FIELD);
+				throw new BizException(DefaultSysErrorEnum.BAD_ORDER_FIELD);
 			}
 			orderField = orderByEnum.getOrderField();
 		}
