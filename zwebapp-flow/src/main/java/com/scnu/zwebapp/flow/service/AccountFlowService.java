@@ -42,7 +42,7 @@ public interface AccountFlowService extends IService<AccountFlow, AccountFlowDTO
 	 * @param flowDto
 	 * @return
 	 */
-	boolean insertIncomeFlow(AccountFlowDTO flowDto);
+	AccountFlow insertIncomeFlow(AccountFlowDTO flowDto);
 	
 	/**
 	 * 新增支出流水
