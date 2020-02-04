@@ -1,7 +1,7 @@
 server:
   port: 9083
   servlet:
-    context-path: /zwebapp-flow
+    context-path: /api/zwebapp-flow
 spring:
   application:
     name: zwebapp-flow
