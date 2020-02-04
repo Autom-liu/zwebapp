@@ -17,6 +17,8 @@ public class AccountFlowDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String flowId;
+    
+    private String relatFlowId;
 
     @NotNull(message = "账户不能为空")
     private Integer srcAccId;

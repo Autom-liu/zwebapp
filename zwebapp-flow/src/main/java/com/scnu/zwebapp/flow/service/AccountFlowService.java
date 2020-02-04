@@ -51,7 +51,7 @@ public interface AccountFlowService extends IService<AccountFlow, AccountFlowDTO
 	 * @param flowDto
 	 * @return
 	 */
-	boolean insertOutcomeFlow(AccountFlowDTO flowDto);
+	AccountFlow insertOutcomeFlow(AccountFlowDTO flowDto);
 	
 	/**
 	 * 新增转账流水
@@ -60,15 +60,15 @@ public interface AccountFlowService extends IService<AccountFlow, AccountFlowDTO
 	 * @param flowDto
 	 * @return
 	 */
-	boolean insertTransferFlow(AccountFlowDTO flowDto);
+	AccountFlow insertTransferFlow(AccountFlowDTO flowDto);
 	
 	/**
 	 * 新增余额变更流水
 	 * @Title: insertRechargeFlow
 	 * @Description: 新增余额变更流水
 	 * @param flowDto
-	 * @return
+	 * @return null if the flow amount equal to account amount
 	 */
-	boolean insertRechargeFlow(AccountFlowDTO flowDto);
+	AccountFlow insertRechargeFlow(AccountFlowDTO flowDto);
 	
 }
