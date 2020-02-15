@@ -22,7 +22,7 @@ import com.scnu.zwebapp.common.vo.PageVO;
  * @param <DTO> DTO类型
  * @param <VO> VO类型
  */
-public abstract class BaseService<T, DTO, VO> implements IService<T, DTO, VO> {
+public abstract class BaseService<T, DTO, VO> implements IService<DTO, VO> {
 	
 	@Autowired
 	protected Mapper<T> mapper;

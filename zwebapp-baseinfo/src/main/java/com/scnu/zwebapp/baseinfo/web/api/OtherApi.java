@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scnu.zwebapp.baseinfo.dto.OtherDTO;
-import com.scnu.zwebapp.baseinfo.query.OtherQuery;
-import com.scnu.zwebapp.baseinfo.service.OtherService;
-import com.scnu.zwebapp.baseinfo.vo.OtherVO;
 import com.scnu.zwebapp.common.enums.ErrorEnum;
 import com.scnu.zwebapp.common.vo.IResult;
 import com.scnu.zwebapp.common.vo.Result;
 import com.scnu.zwebapp.common.vo.ResultList;
+import com.scnu.zwebapp.facade.dto.OtherDTO;
+import com.scnu.zwebapp.facade.interfaces.OtherService;
+import com.scnu.zwebapp.facade.query.OtherQuery;
+import com.scnu.zwebapp.facade.vo.OtherVO;
 
 @RestController
 public class OtherApi {

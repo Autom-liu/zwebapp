@@ -40,7 +40,7 @@ public class GobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(BindException.class)
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public IResult bindException(BindException e, HttpServletRequest request) {
 		BindingResult bindingResult = e.getBindingResult();
@@ -59,7 +59,7 @@ public class GobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(NoHandlerFoundException.class)
-	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public IResult InterfaceNotFound(NoHandlerFoundException e, HttpServletRequest request) {
 		if(log.isErrorEnabled()) {
@@ -77,7 +77,7 @@ public class GobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(BizException.class)
-	@ResponseStatus(HttpStatus.BAD_GATEWAY)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public IResult bizException(BizException e, HttpServletRequest request) {
 		if(log.isWarnEnabled()) {
@@ -95,7 +95,7 @@ public class GobalExceptionHandler {
 	 * @return
 	 */
 	@ExceptionHandler(Exception.class)
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public IResult bizException(Exception e, HttpServletRequest request) {
 		if(log.isErrorEnabled()) {

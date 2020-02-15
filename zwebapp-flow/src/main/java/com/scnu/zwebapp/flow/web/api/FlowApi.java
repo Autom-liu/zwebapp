@@ -12,8 +12,8 @@ import com.scnu.zwebapp.common.enums.FlowRecordTypeEnum;
 import com.scnu.zwebapp.common.vo.IResult;
 import com.scnu.zwebapp.common.vo.Result;
 import com.scnu.zwebapp.common.web.annotation.CommonRequestBody;
-import com.scnu.zwebapp.flow.dto.AccountFlowDTO;
-import com.scnu.zwebapp.flow.service.AccountFlowService;
+import com.scnu.zwebapp.facade.dto.AccountFlowDTO;
+import com.scnu.zwebapp.facade.interfaces.AccountFlowService;
 
 @RestController
 @RequestMapping("/flow")

@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.scnu.zwebapp.baseinfo.dto.AccountDTO;
-import com.scnu.zwebapp.baseinfo.query.AccountQuery;
-import com.scnu.zwebapp.baseinfo.service.AccountService;
-import com.scnu.zwebapp.baseinfo.vo.AccountVO;
 import com.scnu.zwebapp.common.enums.ErrorEnum;
 import com.scnu.zwebapp.common.vo.IResult;
 import com.scnu.zwebapp.common.vo.Result;
 import com.scnu.zwebapp.common.vo.ResultList;
+import com.scnu.zwebapp.facade.dto.AccountDTO;
+import com.scnu.zwebapp.facade.interfaces.AccountService;
+import com.scnu.zwebapp.facade.query.AccountQuery;
+import com.scnu.zwebapp.facade.vo.AccountVO;
 
 @RestController
 public class AccountApi {

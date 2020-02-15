@@ -7,11 +7,11 @@
   </parent>
   <artifactId>zwebapp-baseinfo</artifactId>
   <dependencies>
-  	<dependency>
-  		<groupId>com.scnu.zwebapp</groupId>
-  		<artifactId>zwebapp-common-service</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
+  <dependency>
+  	<groupId>com.scnu.zwebapp</groupId>
+  	<artifactId>zwebapp-facade</artifactId>
+  	<version>0.0.1-SNAPSHOT</version>
+  </dependency>
   </dependencies>
   <build>
   	<finalName>zwebapp-baseinfo</finalName>

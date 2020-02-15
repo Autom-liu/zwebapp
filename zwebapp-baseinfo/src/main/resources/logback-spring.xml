@@ -3,7 +3,12 @@
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 	<!-- 设置全局变量 -->
 	<!-- 日志输出级别  TRACE<DEBUG<INFO<WRAN<ERROR -->
-	<property name="log.level" value="debug" />
+	<springProfile name="dev">
+		<property name="log.level" value="debug" />
+	</springProfile>
+	<springProfile name="prod">
+		<property name="log.level" value="info" />
+	</springProfile>
 	<!-- 日志保留时间 -->
 	<property name="log.maxHistory" value="30" />
 	<!-- 日志存储位置 -->
@@ -74,19 +79,37 @@
 			<onMismatch>DENY</onMismatch>
 		</filter>
 	</appender>
+	
+	<appender name="WARN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.filePath}/warn.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.filePath}/warn/warn.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+			<maxHistory>${log.maxHistory}</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+	</appender>
+	
 	<!-- 哪些内容的信息需要输出，logger和appender进行绑定，additivity会把根日志配置也放到这里面来 -->
-	<logger name="com.edu.scnu.debug" level="debug" additivity="true">
+	<logger name="com.scnu.zwebapp.baseinfo" level="debug" additivity="true">
 		<appender-ref ref="DEBUG" />
 		<appender-ref ref="INFO" />
 		<appender-ref ref="ERROR" />
 	</logger>
 	
 	<!-- 哪些内容的信息需要输出，logger和appender进行绑定，additivity会把根日志配置也放到这里面来 -->
-	<logger name="com.edu.scnu.info" level="info" additivity="true">
+	<logger name="com.scnu.zwebapp.baseinfo" level="info" additivity="true">
 		<appender-ref ref="INFO" />
 		<appender-ref ref="ERROR" />
 	</logger>
 	
+	<!-- 根日志信息 -->
 	<springProfile name="dev">
 		<!-- 根日志信息 -->
 		<root level="debug">
@@ -98,6 +121,8 @@
 		<!-- 根日志信息 -->
 		<root level="info">
 			<appender-ref ref="INFO" />
+			<appender-ref ref="WARN" />
+			<appender-ref ref="ERROR" />
 		</root>
 	</springProfile>
 	

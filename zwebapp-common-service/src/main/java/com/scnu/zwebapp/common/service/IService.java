@@ -10,7 +10,7 @@ import java.util.List;
  * @param <DTO> DTO
  * @param <VO> VO
  */
-public interface IService<T, DTO, VO> {
+public interface IService<DTO, VO> {
 	
 	List<VO> findAll();
 	

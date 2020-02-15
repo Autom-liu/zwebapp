@@ -6,13 +6,6 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <artifactId>zwebapp-flow</artifactId>
-  <dependencies>
-  	<dependency>
-  		<groupId>com.scnu.zwebapp</groupId>
-  		<artifactId>zwebapp-common-service</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-  	</dependency>
-  </dependencies>
   <build>
   	<finalName>zwebapp-flow</finalName>
   	<plugins>
@@ -34,4 +27,11 @@
         </plugin>
     </plugins>
   </build>
+  <dependencies>
+  	<dependency>
+  		<groupId>com.scnu.zwebapp</groupId>
+  		<artifactId>zwebapp-facade</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+  	</dependency>
+  </dependencies>
 </project>
