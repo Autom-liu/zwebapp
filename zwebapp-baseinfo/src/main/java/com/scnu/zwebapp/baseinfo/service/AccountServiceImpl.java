@@ -1,9 +1,11 @@
 package com.scnu.zwebapp.baseinfo.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
@@ -25,6 +27,7 @@ import com.scnu.zwebapp.facade.interfaces.AccountService;
 import com.scnu.zwebapp.facade.query.AccountQuery;
 import com.scnu.zwebapp.facade.vo.AccountVO;
 
+@Component
 @Service
 public class AccountServiceImpl extends BaseService<Account, AccountDTO, AccountVO> implements AccountService {
 
@@ -91,7 +94,7 @@ public class AccountServiceImpl extends BaseService<Account, AccountDTO, Account
 		Account mainAccount = DataUtils.copyBean(accountDTO, Account.class);
 		List<SubAccountDTO> subAccountList = accountDTO.getSubAccount();
 		boolean hasChild = !CollectionUtils.isEmpty(subAccountList);
-		mainAccount.setAccAmount(0L);
+		mainAccount.setAccAmount(BigDecimal.ZERO);
 		mainAccount.setAccParentId(0);
 		mainAccount.setAccHasChild(hasChild);
 		mainAccount.setAccCanPay(canPay(accSysTypeCode));
@@ -106,7 +109,7 @@ public class AccountServiceImpl extends BaseService<Account, AccountDTO, Account
 			List<Account> subAccounts = DataUtils.copyList(subAccountList, Account.class, (r, t) -> {
 				t.setAccSysType(accSysTypeCode);
 				t.setAccUserType(accUserTypeCode);
-				t.setAccAmount(0L);
+				t.setAccAmount(BigDecimal.ZERO);
 				t.setAccParentId(mainAccount.getAccId());
 				t.setAccHasChild(false);
 				t.setIsDel(false);

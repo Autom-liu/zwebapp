@@ -1,6 +1,8 @@
 package com.scnu.zwebapp.baseinfo.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+
 import javax.persistence.*;
 
 @Table(name = "zw_account")
@@ -43,7 +45,7 @@ public class Account implements Serializable {
      * 账户金额
      */
     @Column(name = "`acc_amount`")
-    private Long accAmount;
+    private BigDecimal accAmount;
 
     /**
      * 是否有子账户
@@ -183,7 +185,7 @@ public class Account implements Serializable {
      *
      * @return acc_amount - 账户金额
      */
-    public Long getAccAmount() {
+    public BigDecimal getAccAmount() {
         return accAmount;
     }
 
@@ -192,7 +194,7 @@ public class Account implements Serializable {
      *
      * @param accAmount 账户金额
      */
-    public void setAccAmount(Long accAmount) {
+    public void setAccAmount(BigDecimal accAmount) {
         this.accAmount = accAmount;
     }
 

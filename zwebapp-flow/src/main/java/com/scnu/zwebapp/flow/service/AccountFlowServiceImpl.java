@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +39,7 @@ public class AccountFlowServiceImpl extends BaseService<AccountFlow, AccountFlow
 	@Autowired
 	private AccountFlowMapper accountFlowMapper;
 	
-	@Autowired
+	@Reference
 	private AccountService accountService;
 	
 

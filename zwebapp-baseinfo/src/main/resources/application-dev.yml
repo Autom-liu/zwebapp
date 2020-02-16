@@ -8,3 +8,16 @@ mybatis:
   mapper-locations: classpath:mapper/**.xml,classpath:mapper/ext/**.xml
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+dubbo:
+  application:
+    name: zwebapp-baseinfo   # dubbo应用名称
+  registry:
+    protocol: zookeeper      # 注册中心协议
+    address: 127.0.0.1:2181  # 注册中心地址
+  protocol:
+    name: dubbo
+    port: 20080
+  monitor:
+    protocol: registry
+    

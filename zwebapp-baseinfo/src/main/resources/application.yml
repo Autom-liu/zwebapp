@@ -4,6 +4,6 @@ server:
     context-path: /api/zwebapp-baseinfo
 spring:
   application:
-    name: zwebapp
+    name: zwebapp-baseinfo
   profiles:
     active: dev
